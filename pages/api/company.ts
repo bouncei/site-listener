@@ -102,7 +102,7 @@ export default async function handler(
             .json({ message: "Company doesn't exist", status: false });
         } else {
           await client
-            .db("troctowork")
+            .db("sitestats-db")
             .collection("companies")
             .updateOne(
               {
@@ -122,6 +122,43 @@ export default async function handler(
         console.warn(error);
         return res.status(401).json({
           message: "Error occurred while uploading edits",
+          error: error,
+        });
+      }
+
+    case "DELETE":
+      client = await clientPromise;
+      //   Update company
+      try {
+        const { companyId } = req.query;
+
+        const isExist = await client
+          .db("sitestats-db")
+          .collection("companies")
+          .findOne({
+            _id: new ObjectId(companyId as string),
+          });
+        if (!isExist) {
+          return res
+            .status(422)
+            .json({ message: "Company doesn't exist", status: false });
+        } else {
+          await client
+            .db("sitestats-db")
+            .collection("companies")
+            .deleteOne({
+              _id: new ObjectId(companyId as string),
+            });
+
+          res.status(200).json({
+            message: `Company Deleted!`,
+          });
+          return res.end();
+        }
+      } catch (error) {
+        console.warn(error);
+        return res.status(401).json({
+          message: "An Error occurred",
           error: error,
         });
       }

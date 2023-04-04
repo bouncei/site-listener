@@ -6,12 +6,14 @@ import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import { LoadingIcon } from "../elements";
 import { toast } from "react-hot-toast";
-import { render } from "react-dom";
 
 interface AddSiteProps {
   show: any;
   onClose: any;
-  render: any;
+  name: any;
+  icon: any;
+  website: any;
+  id: any;
 }
 const fiedStyles = {
   input:
@@ -29,11 +31,11 @@ const style = {
   p: 3,
 };
 
-const AddSite = ({ show, onClose, render }: AddSiteProps) => {
+const EditSite = ({ show, onClose, name, icon, website, id }: AddSiteProps) => {
   const [formData, setFormData] = useState({
-    icon: null,
-    name: "",
-    website: "",
+    icon: icon,
+    name: name,
+    website: website,
   });
   const [loading, setLoading] = useState(false);
 
@@ -57,10 +59,11 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     setLoading(true);
+    console.log(formData);
 
     try {
-      const resp = await fetch("/api/company", {
-        method: "POST",
+      const resp = await fetch(`/api/company?companyId=${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -71,13 +74,7 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
 
       setTimeout(() => {
         setLoading(false);
-        setFormData({
-          icon: null,
-          name: "",
-          website: "",
-        });
         toast.success(data["message"]);
-        render();
         onClose();
       }, data);
 
@@ -111,7 +108,7 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
             component="h2"
             className="flex justify-between items-center font-medium text-lg  md:text-2xl"
           >
-            <p>Add A New Website</p>
+            <p>Edit {name}</p>
 
             <p onClick={onClose} className="pr-3 cursor-pointer">
               x
@@ -144,9 +141,10 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
                 className="hidden"
                 id="icon"
                 name="icon"
+                // value={}
                 accept="image/*"
                 onChange={handleChange}
-                required
+                // required
               />
             </div>
 
@@ -156,6 +154,7 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
                 name="name"
                 id="name"
                 type="text"
+                value={formData["name"]}
                 onChange={handleChange}
                 className={fiedStyles.input}
                 placeholder="Name"
@@ -169,9 +168,10 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
                 name="website"
                 id="website"
                 type="text"
+                value={formData["website"]}
                 onChange={handleChange}
                 className={fiedStyles.input}
-                placeholder="e.g; www.example.com"
+                // placeholder="e.g; www.example.com"
                 required
               />
             </div>
@@ -181,7 +181,7 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
                 className="bg-[#1890ff] font-semibold py-2 px-3 rounded-lg duration-200 ease-in-out text-white hover:text-[#1890ff]  hover:bg-white w-full "
                 type="submit"
               >
-                {loading ? <LoadingIcon /> : "Create"}
+                {loading ? <LoadingIcon /> : "Update"}
               </button>
             </div>
           </form>
@@ -191,4 +191,4 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
   );
 };
 
-export default AddSite;
+export default EditSite;

@@ -9,12 +9,17 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   password: {
     type: String,
     required: true,
   },
-  orders: {
-    type: Object,
+  date: {
+    type: Date,
+    default: new Date(),
   },
 });
 

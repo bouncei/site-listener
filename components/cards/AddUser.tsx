@@ -6,9 +6,8 @@ import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import { LoadingIcon } from "../elements";
 import { toast } from "react-hot-toast";
-import { render } from "react-dom";
 
-interface AddSiteProps {
+interface AdduserProps {
   show: any;
   onClose: any;
   render: any;
@@ -29,37 +28,34 @@ const style = {
   p: 3,
 };
 
-const AddSite = ({ show, onClose, render }: AddSiteProps) => {
+const AddUser = ({ show, onClose, render }: AdduserProps) => {
   const [formData, setFormData] = useState({
-    icon: null,
-    name: "",
-    website: "",
+    username: "",
+    email: "",
+    password: "",
+    confirm_pwd: "",
+  });
+  const [hide, setHide] = useState({
+    password: true,
+    confirm_pwd: true,
   });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
 
-    if (name === "icon") {
-      new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(event.target.files[0]);
-        reader.onload = () => {
-          resolve(reader.result);
-          setFormData({ ...formData, [name]: reader.result });
-        };
-        reader.onerror = (error) => reject(error);
-      });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    setFormData({ ...formData, [name]: value });
   };
   const handleSubmit = async (event: any) => {
     event.preventDefault();
+    if (formData.password !== formData.confirm_pwd) {
+      toast.error("Passwords does not match");
+      return;
+    }
     setLoading(true);
 
     try {
-      const resp = await fetch("/api/company", {
+      const resp = await fetch("/api/auth", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,9 +68,10 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
       setTimeout(() => {
         setLoading(false);
         setFormData({
-          icon: null,
-          name: "",
-          website: "",
+          username: "",
+          email: "",
+          password: "",
+          confirm_pwd: "",
         });
         toast.success(data["message"]);
         render();
@@ -89,6 +86,7 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
       return;
     }
   };
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -111,7 +109,7 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
             component="h2"
             className="flex justify-between items-center font-medium text-lg  md:text-2xl"
           >
-            <p>Add A New Website</p>
+            <p>New User</p>
 
             <p onClick={onClose} className="pr-3 cursor-pointer">
               x
@@ -119,61 +117,82 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
           </Typography>
 
           <form
-            className="flex flex-col space-y-4 items-center"
+            className="flex flex-col space-y-4 pt-3 md:pt-6 items-center"
             onSubmit={handleSubmit}
           >
-            <div className=" cursor-pointer">
-              {formData["icon"] ? (
-                <label htmlFor="icon" className=" cursor-pointer py-4">
-                  <img
-                    src={formData["icon"]}
-                    alt="company icon"
-                    className=" object-cover h-44 w-44 rounded-md mt-6 "
-                  />
-                </label>
-              ) : (
-                <label
-                  htmlFor="icon"
-                  className=" cursor-pointer flex justify-center items-center border border-dashed p-14 rounded-xl mt-6"
+            <div className=" w-full space-y-2">
+              <label htmlFor="username">Username</label>
+
+              <input
+                type="text"
+                // className="hidden"
+                placeholder="Enter Username"
+                id="username"
+                name="username"
+                className={fiedStyles.input}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="w-full space-y-2">
+              <label htmlFor="email">Email</label>
+              <input
+                name="email"
+                id="email"
+                type="email"
+                onChange={handleChange}
+                className={fiedStyles.input}
+                placeholder="e.g; example@email.com"
+                required
+              />
+            </div>
+
+            <div className="w-full space-y-2">
+              <label htmlFor="password">Password</label>
+
+              <div className="flex items-center relative">
+                <input
+                  name="password"
+                  id="password"
+                  type={hide.password ? "password" : "text"}
+                  onChange={handleChange}
+                  className={fiedStyles.input}
+                  placeholder="Enter Password"
+                  required
+                />
+
+                <span
+                  className="absolute text-sm cursor-pointer rounded p-1 right-3"
+                  onClick={() => setHide({ ...hide, password: !hide.password })}
                 >
-                  +
-                </label>
-              )}
-              <input
-                type="file"
-                className="hidden"
-                id="icon"
-                name="icon"
-                accept="image/*"
-                onChange={handleChange}
-                required
-              />
+                  {hide.password ? "show" : "hide"}
+                </span>
+              </div>
             </div>
 
             <div className="w-full space-y-2">
-              <label htmlFor="name">Company Name</label>
-              <input
-                name="name"
-                id="name"
-                type="text"
-                onChange={handleChange}
-                className={fiedStyles.input}
-                placeholder="Name"
-                required
-              />
-            </div>
+              <label htmlFor="confirm_pwd">Confirm Password</label>
 
-            <div className="w-full space-y-2">
-              <label htmlFor="website">Company Website</label>
-              <input
-                name="website"
-                id="website"
-                type="text"
-                onChange={handleChange}
-                className={fiedStyles.input}
-                placeholder="e.g; www.example.com"
-                required
-              />
+              <div className="flex items-center relative">
+                <input
+                  name="confirm_pwd"
+                  id="confirm_pwd"
+                  type={hide.confirm_pwd ? "password" : "text"}
+                  onChange={handleChange}
+                  className={fiedStyles.input}
+                  placeholder="Comfirm Password"
+                  required
+                />
+                <span
+                  className="absolute text-sm cursor-pointer rounded p-1 right-3"
+                  onClick={() =>
+                    setHide({ ...hide, confirm_pwd: !hide.confirm_pwd })
+                  }
+                >
+                  {hide.password ? "show" : "hide"}
+                </span>
+              </div>
             </div>
 
             <div className="pt-4 w-full">
@@ -191,4 +210,4 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
   );
 };
 
-export default AddSite;
+export default AddUser;

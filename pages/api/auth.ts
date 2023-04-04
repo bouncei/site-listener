@@ -54,11 +54,11 @@ export default async function handler(
       });
     }
 
-    const newUser = {
+    const newUser = UserModel({
       username: username,
       email: email,
       password: password,
-    };
+    });
     console.trace(newUser);
     const resp = await client
       .db("sitestats-db")

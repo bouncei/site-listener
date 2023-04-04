@@ -1,11 +1,14 @@
 "use client";
 import { createContext, useState, useEffect } from "react";
 import destr from "destr";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
+// import { useRouter } from "next/router";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const router = useRouter().push;
   const [user, setUser] = useState(null);
   const pathname = usePathname();
 
@@ -19,6 +22,7 @@ export const AuthProvider = ({ children }) => {
       setUser(res);
     } else {
       setUser(null);
+      router("/login");
     }
   }, [pathname]);
 

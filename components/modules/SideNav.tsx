@@ -68,9 +68,9 @@ const SideNav = ({ onClose }: NavProps) => {
               <Button>Sign In</Button>
             </Link>
           ) : (
-            <button className="hidden md:inline-block" onClick={handleLogout}>
+            <div className="hidden md:inline-block" onClick={handleLogout}>
               <Button>Logout</Button>
-            </button>
+            </div>
           )}
         </div>
       </div>

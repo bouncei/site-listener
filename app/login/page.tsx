@@ -47,7 +47,7 @@ const Login = () => {
         );
         const response = await res.json();
 
-        toast.success(response.message);
+        toast.success("Welcome Back! ");
 
         if (response.user) {
           window.localStorage.setItem("user", JSON.stringify(response.user));

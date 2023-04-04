@@ -21,7 +21,7 @@ export default function RootLayout({
           />
           <div className="bg-slate-700 min-h-screen text-white">
             <Header />
-            <div className="p-8">{children}</div>
+            <div className="py-8 px-4 md:px-10">{children}</div>
           </div>
         </AuthProvider>
       </body>

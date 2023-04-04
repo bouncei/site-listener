@@ -49,17 +49,21 @@ const Header = () => {
         </p>
       </div>
       <div className="w-1/3 justify-center hidden md:flex space-x-3 items-center">
-        <ActiveLink href="/">
-          <button className=" hover:bg-[#1890ff] py-1 px-3 rounded-lg duration-200 ease-in-out">
-            User Access
-          </button>
-        </ActiveLink>
+        {user && (
+          <>
+            <ActiveLink href="/">
+              <button className=" hover:bg-[#1890ff] py-1 px-3 rounded-lg duration-200 ease-in-out">
+                User Access
+              </button>
+            </ActiveLink>
 
-        <ActiveLink href="/dashboard">
-          <button className=" hover:bg-[#1890ff] py-1 px-3 rounded-lg duration-200 ease-in-out">
-            Dashboard
-          </button>
-        </ActiveLink>
+            <ActiveLink href="/dashboard">
+              <button className=" hover:bg-[#1890ff] py-1 px-3 rounded-lg duration-200 ease-in-out">
+                Dashboard
+              </button>
+            </ActiveLink>
+          </>
+        )}
       </div>
       <div className="w-1/3 flex items-center justify-end pr-3 space-x-2">
         {/*Amount of Items in cart */}
@@ -70,9 +74,9 @@ const Header = () => {
           </Link>
         ) : (
           <>
-            <button className="hidden md:inline-block" onClick={handleLogout}>
+            <div className="hidden md:inline-block" onClick={handleLogout}>
               <Button>Logout</Button>
-            </button>
+            </div>
           </>
         )}
       </div>
