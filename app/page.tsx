@@ -5,27 +5,42 @@ import { Button } from "@/components/elements";
 import { AddUser } from "@/components/cards";
 import AuthContext from "../context/Auth";
 import TableCard from "../components/cards/TableCard";
-
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const router = useRouter().push;
   const { user } = useContext(AuthContext);
   const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState([]);
   const [r, setR] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getUsers = async () => {
+    setLoading(true);
     const resp = await fetch("/api/users", { method: "GET" });
     const data = await resp.json();
 
-    setData(data["data"]);
+    setTimeout(() => {
+      setData(data["data"]);
+
+      setLoading(false);
+    }, data);
   };
   useEffect(() => {
     getUsers();
   }, [r]);
 
   console.log("Check layout");
+
+  // if (!user) {
+  //   toast.error("Please Login");
+  //   router("/login");
+
+  //   return;
+  // }
 
   return (
     <div>
@@ -65,18 +80,30 @@ export default function Home() {
                 )}
               </tr>
             </thead>
-            <tbody>
-              {data.map((item: any, index) => (
-                <TableCard
-                  key={index}
-                  index={index}
-                  item={item}
-                  user={user}
-                  render={() => setR(!r)}
-                />
-              ))}
-            </tbody>
+
+            {loading ? null : (
+              <tbody>
+                {data.map((item: any, index) => (
+                  <TableCard
+                    key={index}
+                    index={index}
+                    item={item}
+                    user={user}
+                    render={() => setR(!r)}
+                  />
+                ))}
+              </tbody>
+            )}
           </table>
+          {loading && (
+            <div className="flex bg-slate-700 justify-center items-center py-8">
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 rounded-full bg-blue-500 animate-pulse"></div>
+                <div className="w-4 h-4 rounded-full bg-blue-500 animate-pulse"></div>
+                <div className="w-4 h-4 rounded-full bg-blue-500 animate-pulse"></div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <AddUser

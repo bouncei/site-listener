@@ -28,10 +28,10 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
+    router("/login");
     window.localStorage.removeItem("user");
 
     toast.success("Bye, see you later");
-    router("/login");
   };
 
   return (

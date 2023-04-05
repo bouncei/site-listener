@@ -1,16 +1,19 @@
 "use client"; // this is a client component
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 // import Image from "next/image";
 import LoadingIcon from "../../components/elements/Loading";
 import Link from "next/link";
+import AuthContext from "@/context/Auth";
 
 const styles = {
   input:
     "w-full rounded-md p-2 px-4 focus:border focus:border-amber-600 bg-[#e7ebf0]",
 };
 const Login = () => {
+  const { user } = useContext(AuthContext);
+
   const router = useRouter().push;
   const [loading, setLoading] = useState(false);
   const [hide, setHide] = useState(true);
@@ -66,6 +69,7 @@ const Login = () => {
       console.log(error);
     }
   };
+
   return (
     <div className="bg-slate-700 h-screen">
       <div className="flex min-h-[calc(100vh - 7px)] py-[79px] flex-col">
@@ -114,14 +118,14 @@ const Login = () => {
                 {loading ? <LoadingIcon /> : "Log in"}
               </button>
               {/*
-              
-              <div className="flex items-right justify-end space-x-2 text-white">
-                <p>Don&apos;t have an account?</p>
-                <span className="text-[#1890ff]">
-                  <Link href="/register">Sign up</Link>
-                </span>
-              </div>
-              */}
+                
+                <div className="flex items-right justify-end space-x-2 text-white">
+                  <p>Don&apos;t have an account?</p>
+                  <span className="text-[#1890ff]">
+                    <Link href="/register">Sign up</Link>
+                  </span>
+                </div>
+                */}
             </form>
           </div>
         </div>
