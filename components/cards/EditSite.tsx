@@ -12,6 +12,7 @@ interface AddSiteProps {
   onClose: any;
   name: any;
   icon: any;
+  render: any;
   website: any;
   id: any;
 }
@@ -31,7 +32,15 @@ const style = {
   p: 3,
 };
 
-const EditSite = ({ show, onClose, name, icon, website, id }: AddSiteProps) => {
+const EditSite = ({
+  show,
+  onClose,
+  name,
+  icon,
+  website,
+  id,
+  render,
+}: AddSiteProps) => {
   const [formData, setFormData] = useState({
     icon: icon,
     name: name,
@@ -74,6 +83,7 @@ const EditSite = ({ show, onClose, name, icon, website, id }: AddSiteProps) => {
 
       setTimeout(() => {
         setLoading(false);
+        render();
         toast.success(data["message"]);
         onClose();
       }, data);

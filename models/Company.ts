@@ -19,12 +19,12 @@ const CompanySchema = new mongoose.Schema({
 
   ssl: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 
   active: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   message: {
     type: String,

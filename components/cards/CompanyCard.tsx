@@ -13,6 +13,7 @@ interface CompanyProps {
   message: any;
   date: any;
   id: any;
+  render: any;
 }
 
 const CompanyCard = ({
@@ -23,6 +24,7 @@ const CompanyCard = ({
   active,
   message,
   date,
+  render,
   id,
 }: CompanyProps) => {
   const [editModal, setEditModal] = useState(false);
@@ -52,13 +54,18 @@ const CompanyCard = ({
               className="cursor-pointer bg-[#E31B23]  px-4 py-2 rounded-md text-white"
               onClick={async () => {
                 // WRITE THE DELETE FUNCTION FOR AN OFFER
-                const res = await fetch(`/api/company?companyId=${id}`, {
+                const res: any = await fetch(`/api/company?companyId=${id}`, {
                   method: "DELETE",
                 });
                 const resp = await res.json();
-                toast.success(resp["message"]);
 
-                toast.dismiss(t.id);
+                setTimeout(() => {
+                  render();
+
+                  toast.success(resp["message"]);
+
+                  toast.dismiss(t.id);
+                }, res);
               }}
             >
               Delete
@@ -88,7 +95,7 @@ const CompanyCard = ({
   };
 
   return (
-    <div className="h-[37vh] w-full overflow-hidden flex flex-col justify-between  bg-slate-600 text-base md:text-lg">
+    <div className="h-[37vh] w-full rounded-xl overflow-hidden flex flex-col justify-between  bg-slate-600 text-base md:text-lg">
       <p
         className={` ${
           message ? "inline-block bg-slate-500" : " invisible bg-slate-600"
@@ -172,6 +179,7 @@ const CompanyCard = ({
         onClose={() => setEditModal(!editModal)}
         name={name}
         icon={icon}
+        render={render}
         website={website}
         id={id}
       />

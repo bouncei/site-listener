@@ -21,13 +21,21 @@ const Dashboard = () => {
     }, data);
   };
 
+  const getIt = async () => {
+    const resp = await fetch("/api/company", { method: "GET" });
+    const data = await resp.json();
+
+    setData(data["data"]);
+  };
+
   useEffect(() => {
     getCompanies();
   }, [r]);
 
   console.log("rerender ", data);
 
-  // setTimeout(() => getCompanies(), 1000);
+  setTimeout(() => getIt(), 1000);
+
   return (
     <div>
       <div className=" flex justify-end items-center">
@@ -57,6 +65,7 @@ const Dashboard = () => {
               active={item.active}
               message={item.message}
               date={item.date}
+              render={() => getIt()}
             />
           ))}
         </div>
@@ -64,7 +73,7 @@ const Dashboard = () => {
       <AddSite
         show={openModal}
         onClose={() => setOpenModal(!openModal)}
-        render={() => setR(!r)}
+        render={() => getIt()}
       />
     </div>
   );

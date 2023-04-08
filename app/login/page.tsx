@@ -54,7 +54,7 @@ const Login = () => {
 
         if (response.user) {
           window.localStorage.setItem("user", JSON.stringify(response.user));
-          router("/");
+          router("/dashboard");
         }
 
         setLoading(false);

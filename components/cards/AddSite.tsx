@@ -109,9 +109,9 @@ const AddSite = ({ show, onClose, render }: AddSiteProps) => {
             id="transition-modal-title"
             variant="h6"
             component="h2"
-            className="flex justify-between items-center font-medium text-lg  md:text-2xl"
+            className="flex justify-between items-center font-medium text-lg font-sans  md:text-2xl"
           >
-            <p>Add A New Website</p>
+            <p>Add Website</p>
 
             <p onClick={onClose} className="pr-3 cursor-pointer">
               x
