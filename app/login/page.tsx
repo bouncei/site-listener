@@ -50,18 +50,18 @@ const Login = () => {
         );
         const response = await res.json();
 
-        toast.success("Welcome Back! ");
-
-        if (response.user) {
-          window.localStorage.setItem("user", JSON.stringify(response.user));
-          router("/dashboard");
-        }
-
         setLoading(false);
-        setFormData({
-          userName: "",
-          password: "",
-        });
+        if (response.user) {
+          toast.success("Welcome Back! ");
+          window.localStorage.setItem("user", JSON.stringify(response.user));
+          setFormData({
+            userName: "",
+            password: "",
+          });
+          router("/dashboard");
+        } else {
+          toast.error(response.message);
+        }
       }
     } catch (error) {
       setLoading(false);
@@ -93,7 +93,7 @@ const Login = () => {
                 onChange={handleChange}
                 required
               />
-              <div className="flex items-center relative">
+              <div className="flex items-center text-black relative">
                 <input
                   type={hide ? "password" : "text"}
                   className={styles.input}
