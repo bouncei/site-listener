@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../lib/mongodb";
 import UserModel from "../../models/User";
+import corsMiddleware from "./middleware/cors"
 
-export default async function handler(
+export async function  handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -108,3 +109,6 @@ export default async function handler(
     return res.status(425).end(`Method ${req.method} is not allowed.`);
   }
 }
+
+
+export default corsMiddleware(handler);

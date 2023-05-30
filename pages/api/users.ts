@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../lib/mongodb";
 import { ObjectId } from "bson";
+import corsMiddleware from "./middleware/cors";
 
-export default async function handler(
+export  async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -120,3 +121,5 @@ export default async function handler(
       return res.status(405).json({ message: "Invalid Request" });
   }
 }
+
+export default corsMiddleware(handler);
