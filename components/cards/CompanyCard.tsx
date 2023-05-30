@@ -95,7 +95,7 @@ const CompanyCard = ({
   };
 
   return (
-    <div className="h-[37vh] w-full rounded-xl overflow-hidden flex flex-col justify-between  bg-slate-600 text-base md:text-lg">
+    <div className=" w-full rounded-xl overflow-hidden flex flex-col justify-between  bg-slate-600 text-base md:text-lg">
       <p
         className={` ${
           message ? "inline-block bg-slate-500" : " invisible bg-slate-600"

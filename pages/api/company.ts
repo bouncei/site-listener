@@ -9,13 +9,14 @@ export  async function handler(
   res: NextApiResponse
 ) {
   let client;
-
+  // POST: Adds a new website to the db
+  // GET: Gets websites (options: userId, and websiteId)
   switch (req.method) {
     case "POST":
       // Creating a new company
       client = await clientPromise;
       try {
-        const { name, icon, website } = req.body;
+        const { name, icon, website, userId } = req.body;
 
         // Check if the company exists
         const isExist = await client
@@ -36,6 +37,7 @@ export  async function handler(
           name,
           icon,
           website,
+          userId,
         });
 
         await client
@@ -59,7 +61,7 @@ export  async function handler(
 
     case "GET":
       client = await clientPromise;
-      const { companyId } = req.query;
+      const { companyId, userId } = req.query;
 
       let response;
 
@@ -71,6 +73,14 @@ export  async function handler(
           .findOne({
             _id: new ObjectId(companyId as string),
           });
+      }else if (userId) {
+        // Fetch all websites that belongs to a user
+        response = await client
+        .db("sitestats-db")
+        .collection("companies")
+        .find({
+          userId: userId as string
+        }).toArray()
       } else {
         // Fetch All Existing Companies
         response = await client
