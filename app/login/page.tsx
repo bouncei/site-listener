@@ -40,7 +40,7 @@ const Login = () => {
         toast.error("Please enter all fields");
       } else {
         const res = await fetch(
-          `/api/auth?username=${formData.userName}&password=${formData.password}`,
+          `/api/auth?email=${formData.userName}&password=${formData.password}`,
           {
             method: "GET",
             headers: {

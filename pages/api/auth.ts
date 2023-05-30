@@ -14,11 +14,11 @@ export async function  handler(
   client = await clientPromise;
 
   if (req.method === "GET") {
-    const { username, password } = req.query;
+    const { email, password } = req.query;
 
     // Log in a user
     const user = await client.db("sitestats-db").collection("users").findOne({
-      username: username,
+      email: email,
     });
     if (!user) {
       return res.status(404).json({
