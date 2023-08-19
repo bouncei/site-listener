@@ -14,7 +14,6 @@ interface AdduserProps {
   username: any;
   email: any;
   password: any;
-  
 }
 const fiedStyles = {
   input:
@@ -92,7 +91,6 @@ const EditUser = ({
     }
   };
 
-  console.log("Data", formData);
   return (
     <Modal
       aria-labelledby="transition-modal-title"

@@ -15,15 +15,12 @@ interface NavProps {
 
 const SideNav = ({ onClose }: NavProps) => {
   const router = useRouter().push;
-  // const {
-  //   state: { cart },
-  // } = CartState();
   const { user } = useContext(AuthContext);
 
   const handleLogout = () => {
     window.localStorage.removeItem("user");
-    toast.success("Bye, see you later");
     router("/login");
+    toast.success("Bye, see you later 👋");
   };
 
   return (
@@ -36,7 +33,7 @@ const SideNav = ({ onClose }: NavProps) => {
         color: "white",
       }}
       role="presentation"
-      className="filter flex-col"
+      className="filter flex-col bg-slate-800 bg-opacity-90"
       onClick={onClose}
       onKeyDown={onClose}
     >
@@ -51,7 +48,7 @@ const SideNav = ({ onClose }: NavProps) => {
         <div className="py-8 flex flex-col justify-center items-center gap-4">
           <ActiveLink href="/">
             <button className=" text-sm hover:bg-[#1890ff] py-1 px-3 rounded-lg duration-200 ease-in-out">
-              Home
+              User Access
             </button>
           </ActiveLink>
 

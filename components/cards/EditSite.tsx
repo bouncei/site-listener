@@ -42,7 +42,7 @@ const EditSite = ({
   render,
 }: AddSiteProps) => {
   const [formData, setFormData] = useState({
-    icon: icon,
+    icon: icon ? icon : null,
     name: name,
     website: website,
   });

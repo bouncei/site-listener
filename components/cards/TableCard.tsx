@@ -2,28 +2,16 @@ import { useState } from "react";
 import EditUser from "./EditUser";
 import { Button } from "../elements";
 import { toast } from "react-hot-toast";
+import { convertDate } from "@/utils/helper";
 
 interface tableBodyProps {
   item: any;
   index: any;
   user: any;
-  render: any
+  render: any;
 }
 const TableCard = ({ item, index, user, render }: tableBodyProps) => {
   const [editModal, setEditModal] = useState(false);
-  const convertDate = (dateStr: any) => {
-    const date: any = new Date(dateStr);
-
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-      hour12: false,
-    });
-  };
 
   // Delete User
   const deleteUser = (id: any) => {
@@ -50,7 +38,7 @@ const TableCard = ({ item, index, user, render }: tableBodyProps) => {
                 });
                 const resp = await res.json();
                 toast.success(resp["message"]);
-                render()
+                render();
 
                 toast.dismiss(t.id);
               }}
@@ -67,11 +55,15 @@ const TableCard = ({ item, index, user, render }: tableBodyProps) => {
     );
   };
   return (
-    <tr className={`${index % 2 ? "bg-slate-600" : ""} rounded-md`}>
+    <tr
+      className={`${
+        index % 2 ? "bg-slate-600" : ""
+      } rounded-md !text-xs md:!text-base`}
+    >
       <td className="p-2 border-t border-gray-300">
         <p className="">{item?.username}</p>
       </td>
-      <td className="p-4 border-t hidden md:flex border-gray-300 text-[#3b90e0fe] text-center ">
+      <td className="p-4 border-t border-gray-300 text-[#3b90e0fe] text-center ">
         {convertDate(item.date)}
       </td>
       <td className="p-4 px-5 border-t border-gray-300  text-center">
@@ -84,7 +76,7 @@ const TableCard = ({ item, index, user, render }: tableBodyProps) => {
           </td>
           <td className="p-4 border-t border-gray-300  text-center">
             <button
-              className=" bg-red-600 rounded-lg  text-sm md:text-base font-semibold py-2 px-3  duration-200 ease-in-out text-white hover:red-600  hover:bg-white hover:text-red-600 "
+              className=" bg-red-600 rounded-lg   font-semibold py-2 px-3  duration-200 ease-in-out text-white hover:red-600  hover:bg-white hover:text-red-600 "
               onClick={() => deleteUser(item._id)}
             >
               Delete

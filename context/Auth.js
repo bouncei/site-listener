@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
       setUser(res);
     } else {
       setUser(null);
+      pathname !== "/login" && !user && toast.error("Please Login");
       router("/login");
     }
   }, [pathname]);

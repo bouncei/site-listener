@@ -13,7 +13,6 @@ const Header = () => {
   const router = useRouter().push;
   const [shadow, setShadow] = useState(false);
   const [sideNav, setSideNav] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
   const { user } = useContext(AuthContext);
 
   useEffect(() => {

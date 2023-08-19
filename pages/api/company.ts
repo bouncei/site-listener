@@ -16,7 +16,7 @@ export  async function handler(
       // Creating a new company
       client = await clientPromise;
       try {
-        const { name, icon, website, userId } = req.body;
+        const { name, icon, website, userId } = req.body; 
 
         // Check if the company exists
         const isExist = await client
@@ -26,14 +26,14 @@ export  async function handler(
             name: name,
           });
         if (isExist) {
-          console.log(isExist);
+          
           return res
             .status(422)
             .json({ message: "Company already exists", data: isExist });
         }
 
         // Else Create a new company
-        const company = await Company({
+        const company = await new Company({
           name,
           icon,
           website,
@@ -46,7 +46,7 @@ export  async function handler(
           .insertOne(company);
 
         return res.status(200).json({
-          message: "New company created",
+          message: "New company added",
           status: true,
         });
       } catch (error) {

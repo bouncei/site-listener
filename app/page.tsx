@@ -33,20 +33,12 @@ export default function Home() {
     getUsers();
   }, [r]);
 
-  console.log("Check layout");
-
-  // if (!user) {
-  //   toast.error("Please Login");
-  //   router("/login");
-
-  //   return;
-  // }
-
   return (
     <div>
       <div className=" flex justify-end items-center">
-        <div></div>
-        <Button onClick={() => setOpenModal(true)}>Add User</Button>
+        {!loading && (
+          <Button onClick={() => setOpenModal(true)}>Add User</Button>
+        )}
       </div>
       {/* Render Users (Use Table) */}
       <div className="w-full shadow-xl rounded-xl">
@@ -56,45 +48,47 @@ export default function Home() {
               Admin Users
             </h2>
           </div>
-          <table className="w-full  text-left table-fixed">
-            <thead className="rounded-lg">
-              <tr>
-                <th className="text-sm font-semibold p-4 bg-slate-600 uppercase truncate text-[#3b90e0fe]">
-                  Username
-                </th>
-                <th className="text-sm font-semibold p-4  hidden md:flex bg-slate-600 uppercase text-[#3b90e0fe] text-center">
-                  Date & Time
-                </th>
-                <th className="text-sm font-semibold p-4 bg-slate-600 uppercase text-[#3b90e0fe] text-center">
-                  Email
-                </th>
-                {user?.isAdmin && (
-                  <>
-                    <th className="text-sm font-semibold p-4 bg-slate-600 uppercase text-[#3b90e0fe] text-center">
-                      Modify
-                    </th>
-                    <th className="text-sm font-semibold p-4 bg-slate-600 uppercase text-[#3b90e0fe] text-center">
-                      Delete
-                    </th>
-                  </>
-                )}
-              </tr>
-            </thead>
+          <div className="overflow-x-auto ">
+            <table className="w-full  text-left 2xl:table-fixed">
+              <thead className="rounded-lg text-xs md:text-sm">
+                <tr>
+                  <th className=" font-semibold p-4 bg-slate-600 uppercase truncate text-[#3b90e0fe]">
+                    Username
+                  </th>
+                  <th className=" font-semibold p-4   bg-slate-600 uppercase text-[#3b90e0fe] text-center">
+                    Date & Time
+                  </th>
+                  <th className=" font-semibold p-4 bg-slate-600 uppercase text-[#3b90e0fe] text-center">
+                    Email
+                  </th>
+                  {user?.isAdmin && (
+                    <>
+                      <th className=" font-semibold p-4 bg-slate-600 uppercase text-[#3b90e0fe] text-center">
+                        Modify
+                      </th>
+                      <th className=" font-semibold p-4 bg-slate-600 uppercase text-[#3b90e0fe] text-center">
+                        Delete
+                      </th>
+                    </>
+                  )}
+                </tr>
+              </thead>
 
-            {loading ? null : (
-              <tbody>
-                {data.map((item: any, index) => (
-                  <TableCard
-                    key={index}
-                    index={index}
-                    item={item}
-                    user={user}
-                    render={() => setR(!r)}
-                  />
-                ))}
-              </tbody>
-            )}
-          </table>
+              {loading ? null : (
+                <tbody>
+                  {data.map((item: any, index) => (
+                    <TableCard
+                      key={index}
+                      index={index}
+                      item={item}
+                      user={user}
+                      render={() => setR(!r)}
+                    />
+                  ))}
+                </tbody>
+              )}
+            </table>
+          </div>
           {loading && (
             <div className="flex bg-slate-700 justify-center items-center py-8">
               <div className="flex items-center space-x-2">
